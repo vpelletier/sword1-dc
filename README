@@ -1,0 +1,23 @@
+Some experiments with "Broken Sword: Director's Cut"
+
+Enjoying a lot when I'm able to play adventure games with scummvm, I was
+disapointed to see that I couldn't run my newly-bought adventure game with it.
+So I started poking around in the files to see if I can get something out.
+Those scripts are the results of this poking.
+
+In case it can be of use for someone willing to continue (well, start) the
+scummvm port, I publish them:
+- extract.py: extract content from .dat files from this game.
+- dump.py: to be run on some files from bs1dc.dat (images in various formats)
+  to get some details on their content, and - if pygame is installed - view the
+  image.
+  Beware: there are non-image files in that archive, and this script won't read
+  them (yet ?).
+
+The goal of these scripts is just to document file format in a practical way,
+allowing further inspection of individual contained objects.
+
+extract.py happens to work also on *.dat files from
+"Broken Sword II - The Smoking Mirror Directors Cut", but it seems content is
+in yet another format (*.vim files, which seem compressed - though not zlib).
+
