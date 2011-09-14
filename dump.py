@@ -7,7 +7,7 @@ readable.
 Usage:
   dump.py file
 """
-from struct import unpack
+from struct import unpack, pack
 import sys
 try:
     import pygame
@@ -23,11 +23,7 @@ else:
         max_width = max_height = 0
         min_x = min_y = None
         bin_fmt = be and '>H' or '<H'
-        scale = lambda x: (
-            chr((x >> 8) & 0xf8),
-            chr((x >> 3) & 0xfc),
-            chr((x << 3) & 0xf8),
-        )
+        scale = lambda x: pack('BBB', (x >> 8) & 0xf8, (x >> 3) & 0xfc, (x << 3) & 0xf8)
         for bitmap, width, height, x, y, palette, alpha in bitmap_list:
             max_width = max(max_width, width + x)
             max_height = max(max_height, height + y)
@@ -51,8 +47,7 @@ else:
             else:
                 true_bpp = bpp
             if true_bpp == 16:
-                new_bitmap = []
-                extend = new_bitmap.extend
+                new_bitmap = StringIO()
                 bitmap = StringIO(bitmap)
                 if alpha is None:
                     fmt = 'RGB'
@@ -64,9 +59,10 @@ else:
                     if not chunk:
                         break
                     data = scale(unpack(bin_fmt, chunk)[0])
+                    new_bitmap.write(data)
                     if alpha is not None:
-                        data = data + (alpha.read(1), )
-                    extend(data)
+                        new_bitmap.write(alpha.read(1))
+                new_bitmap = new_bitmap.getvalue()
                 if len(new_bitmap) != width * height * len(fmt):
                     print 'SKIP !'
                     continue
