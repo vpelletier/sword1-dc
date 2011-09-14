@@ -18,6 +18,6 @@ The goal of these scripts is just to document file format in a practical way,
 allowing further inspection of individual contained objects.
 
 extract.py happens to work also on *.dat files from
-"Broken Sword II - The Smoking Mirror Directors Cut", but it seems content is
-in yet another format (*.vim files, which seem compressed - though not zlib).
+"Broken Sword II - The Smoking Mirror Directors Cut". Grahpic content can be
+viewed using unvim.py .
 
