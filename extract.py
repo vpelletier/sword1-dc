@@ -38,10 +38,9 @@ def unpackHSFS(infile, entries):
     file_map = []
     for _ in xrange(entries):
         file_map.append(unpack('<IIII', infile.read(16)))
-    for ident, (a, offset, length, zip_length) in enumerate(file_map):
-        # XXX: "a" meaning unknown - maybe a bitfield ?
+    for ident, offset, length, zip_length in file_map:
         infile.seek(offset)
-        open(str(ident), 'w').write(zlib.decompress(infile.read(zip_length)))
+        open('%08x' % (ident, ), 'w').write(zlib.decompress(infile.read(zip_length)))
 
 def unpackRARC(infile, entries):
     """
@@ -67,10 +66,9 @@ def unpackAUFS(infile, entries):
     file_map = []
     for _ in xrange(entries):
         file_map.append(unpack('<III', infile.read(12)))
-    for ident, (a, offset, length) in enumerate(file_map):
-        # XXX: "a" meaning unknown - maybe a bitfield ?
+    for ident, offset, length in file_map:
         infile.seek(offset)
-        open(str(ident), 'w').write(infile.read(length))
+        open('%08x' % (ident, ), 'w').write(infile.read(length))
 
 if __name__ == '__main__':
     main()
